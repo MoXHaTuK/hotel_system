@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Welcome, {{ name }}!
+</h1>
+<br>
+<h2 class="subtitle">
+  Create a new reservation
+</h2>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+      <div class="notification is-danger">
+          {{ messages[0] }}
+      </div>
+  {% endif %}
+  {% endwith %}
+  <form class="box" action="/create" method="post">
+      <input class="input is-meduim" type="text" name="name" placeholder="Name">
+      <input class="input is-meduim" type="text" name="surname" placeholder="Second name">
+      <input class="input is-meduim" type="number" name="room" placeholder="Room">
+      <input class="input is-meduim" name="in" type="text" 
+      onfocus="(this.type='date')" onblur="(this.type='text')"
+      placeholder="Check in" format="dd/mm/yyyy">
+      <input class="input is-meduim" name="out" type="text" 
+      onfocus="(this.type='date')" onblur="(this.type='text')"
+      placeholder="Check out" format="dd/mm/yyyy">
+      <input class="input is-meduim" type="number" name="payment" placeholder="Check out">
+      <input class="input is-meduim" type="submit" value="Create">
+  </form>
+<br>
+<h2 class="subtitle">
+  Add new known guest
+</h2>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+      <div class="notification is-danger">
+          {{ messages[0] }}
+      </div>
+  {% endif %}
+  {% endwith %}
+  <form class="box" action="/add_guest" method="post">
+      <input class="input is-meduim" type="text" name="name" placeholder="Name">
+      <input class="input is-meduim" type="text" name="surname" placeholder="Second name">
+      <input class="input is-meduim" type="text" name="alcohol" placeholder="Favorite alcohol">
+      <input class="input is-meduim" type="text" name="spice" placeholder="Favorite spice">
+      <input class="input is-meduim" type="text" name="color" placeholder="Favorite color">
+      <input class="input is-meduim" type="text" name="music" placeholder="Favorite music">
+      <input class="input is-meduim" type="submit" value="Add">
+  </form>
+<br>
+<h2 class="subtitle">
+  View current reservations
+</h2>
+  <div class="box">
+  {% if records|length %}
+  <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <tr>
+      <td> Number </td>
+      <td> Name </td>
+      <td> Room </td>
+      <td> Check in </td>
+      <td> Check out </td>
+      <td> Payment </td>
+    </tr>
+    {% for record in records %}
+    <tr>
+      <td> {{ record.id }} </td>
+      <td> {{ record.name }} </td>
+      <td> {{ record.room }} </td>
+      <td> {{ record.in }} </td>
+      <td> {{ record.out }} </td>
+      <td> {{ record.pay }} </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    You have no reservations
+  {% endif %}
+</div>
+<br>
+<h2 class="subtitle">
+  View known guests
+</h2>
+  {% if guests |length %}
+  <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <tr>
+      <td> Number </td>
+      <td> Name </td>
+      <td> Second name </td>
+      <td> Fav. alcohol </td>
+      <td> Fav. spice </td>
+      <td> Fav. color </td>
+      <td> Fav. music </td>
+    </tr>
+    {% for guest in guests %}
+    <tr>
+      <td> {{ guest.id }} </td>
+      <td> {{ guest.name }} </td>
+      <td> {{ guest.second_name }} </td>
+      <td> {{ guest.alcohol }} </td>
+      <td> {{ guest.spice }} </td>
+      <td> {{ guest.color }} </td>
+      <td> {{ guest.music }} </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    You have no reservations
+  {% endif %}
+{% endblock %}
